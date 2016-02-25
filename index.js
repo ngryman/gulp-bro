@@ -7,10 +7,11 @@ const watchify = require('watchify')
 const gutil = require('gulp-util')
 
 /**
- * [bro description]
- * @param  {[type]}   opts     [description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
+ * Return a vinyl transform stream.
+ *
+ * @param  {object|function} [opts]
+ * @param  {function} [callback]
+ * @return {streams.Transform}
  */
 function bro(opts, callback) {
   opts = parseArguments(opts, callback)
@@ -22,9 +23,10 @@ module.exports = bro
 /* -------------------------------------------------------------------------- */
 
 /**
- * [transform description]
- * @param  {[type]} opts [description]
- * @return {[type]}      [description]
+ * Return a vinyl transform stream.
+ *
+ * @param  {object} opts
+ * @return {streams.Transform}
  */
 function transform(opts) {
   return through2.obj(function(file, encoding, next) {
@@ -41,10 +43,11 @@ function transform(opts) {
 }
 
 /**
- * [createBundler description]
- * @param  {[type]} opts [description]
- * @param  {[type]} file [description]
- * @return {[type]}      [description]
+ * Return a new browserify bundler.
+ *
+ * @param  {object} opts
+ * @param  {vinyl} file
+ * @return {Browserify}
  */
 function createBundler(opts, file) {
   const entries = file.isNull() ? file.path : intoStream(file.contents)
@@ -59,13 +62,14 @@ function createBundler(opts, file) {
 }
 
 /**
- * [createBundle description]
- * @param  {[type]}   bundler   [description]
- * @param  {[type]}   opts      [description]
- * @param  {[type]}   transform [description]
- * @param  {[type]}   file      [description]
- * @param  {Function} next      [description]
- * @return {[type]}             [description]
+ * Return a function that bundles the given file.
+ *
+ * @param  {Browserify} bundler
+ * @param  {object} opts
+ * @param  {stream.Transform} transform
+ * @param  {vinyl} file
+ * @param  {function} next
+ * @return {function}
  */
 function createBundle(bundler, opts, transform, file, next) {
   return function() {
@@ -91,10 +95,11 @@ function createBundle(bundler, opts, transform, file, next) {
 }
 
 /**
- * [createErrorHandler description]
- * @param  {[type]} opts      [description]
- * @param  {[type]} transform [description]
- * @return {[type]}           [description]
+ * Return a new error handler.
+ *
+ * @param  {object} opts
+ * @param  {stream.Transform} transform
+ * @return {function}
  */
 function createErrorHandler(opts, transform) {
   return err => {
@@ -121,10 +126,11 @@ function createErrorHandler(opts, transform) {
 /* -------------------------------------------------------------------------- */
 
 /**
- * [parseArguments description]
- * @param  {[type]}   opts     [description]
- * @param  {Function} callback [description]
- * @return {[type]}            [description]
+ * Parse options, arguments juggling
+ *
+ * @param  {object} opts
+ * @param  {function} callback
+ * @return {object}
  */
 function parseArguments(opts, callback) {
   if ('function' === typeof opts) {
@@ -139,8 +145,9 @@ function parseArguments(opts, callback) {
 }
 
 /**
- * [log description]
- * @param  {[type]} message [description]
+ * Format and log the given message.
+ *
+ * @param {string} message
  */
 function log(message) {
   gutil.log(`[${gutil.colors.cyan('bro')}] ${message}`)
