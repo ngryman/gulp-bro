@@ -1,0 +1,4 @@
+{
+  "extends": "ngryman",
+  "parser": "babel-eslint"
+}

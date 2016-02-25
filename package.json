@@ -1,0 +1,51 @@
+{
+  "name": "gulp-bro",
+  "version": "0.0.0",
+  "description": "gulp + browserify + watchify, done right.",
+  "author": "Nicolas Gryman <ngryman@gmail.com> (http://ngryman.sh/)",
+  "license": "MIT",
+  "repository": "ngryman/gulp-bro",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "coverage": "nyc report --reporter=text-lcov | codecov",
+    "check-coverage": "nyc check-coverage --lines 95 --functions 95 --branches 95",
+    "test": "eslint {,test/}*.js && nyc ava"
+  },
+  "precommit": [
+    "check-coverage",
+    "test"
+  ],
+  "keywords": [
+    "browserify",
+    "gulp",
+    "recipe",
+    "simple",
+    "stream",
+    "task",
+    "watchify"
+  ],
+  "dependencies": {
+    "browserify": "^13.0.0",
+    "gulp-util": "^3.0.7",
+    "into-stream": "^2.0.0",
+    "through2": "^2.0.1",
+    "watchify": "^3.7.0"
+  },
+  "devDependencies": {
+    "ava": "^0.12.0",
+    "babel-eslint": "^5.0.0",
+    "babelify": "^7.2.0",
+    "catch-stdout": "0.0.1",
+    "codecov.io": "^0.1.6",
+    "eslint": "^2.2.0",
+    "eslint-config-ngryman": "^1.0.0",
+    "nyc": "^5.6.0",
+    "pre-commit": "^1.1.2",
+    "stream-assert": "^2.0.3",
+    "touch": "^1.0.0",
+    "vinyl-fs": "^2.3.1"
+  }
+}
