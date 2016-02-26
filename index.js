@@ -5,6 +5,7 @@ const intoStream = require('into-stream')
 const through2 = require('through2')
 const watchify = require('watchify')
 const gutil = require('gulp-util')
+const touch = require('touch')
 
 /**
  * Return a vinyl transform stream.
@@ -83,9 +84,19 @@ function createBundle(bundler, opts, transform, file, next) {
 
         if (opts.callback) {
           const bundleStream = through2.obj()
-          opts.callback(bundleStream)
           bundleStream.push(file)
           bundleStream.push(null)
+
+          // XXX: chokibar does not detect a change if we do not explicitly touch the file
+          //   https://github.com/paulmillr/chokidar/issues/345#issuecomment-189389442
+          //
+          // TODO: move `touch` back to `devDependencies when it's fixed`
+          const outStream = opts.callback(bundleStream)
+          if (outStream) {
+            outStream.on('finish', () => {
+              setTimeout(() => touch.sync(file.path), 100)
+            })
+          }
         }
         else {
           next(null, file)

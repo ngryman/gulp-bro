@@ -32,6 +32,7 @@
     "gulp-util": "^3.0.7",
     "into-stream": "^2.0.0",
     "through2": "^2.0.1",
+    "touch": "^1.0.0",
     "watchify": "^3.7.0"
   },
   "devDependencies": {
@@ -39,13 +40,14 @@
     "babel-eslint": "^5.0.0",
     "babelify": "^7.2.0",
     "catch-stdout": "0.0.1",
+    "chokidar": "^1.4.2",
     "codecov.io": "^0.1.6",
     "eslint": "^2.2.0",
     "eslint-config-ngryman": "^1.0.0",
     "nyc": "^5.6.0",
+    "os-tmpdir": "^1.0.1",
     "pre-commit": "^1.1.2",
     "stream-assert": "^2.0.3",
-    "touch": "^1.0.0",
     "vinyl-fs": "^2.3.1"
   }
 }
