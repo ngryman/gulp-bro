@@ -6,6 +6,7 @@ const through2 = require('through2')
 const watchify = require('watchify')
 const gutil = require('gulp-util')
 const touch = require('touch')
+const concat = require('concat-stream')
 
 /**
  * Return a vinyl transform stream.
@@ -74,13 +75,10 @@ function createBundler(opts, file) {
  */
 function createBundle(bundler, opts, transform, file, next) {
   return function() {
-    let contents = new Buffer('')
-
     bundler.bundle()
-      .on('data', data => { contents = Buffer.concat([contents, data]) })
       .on('error', createErrorHandler(opts, transform))
-      .on('end', () => {
-        file.contents = contents
+      .pipe(concat(data => {
+        file.contents = data
 
         if (opts.callback) {
           const bundleStream = through2.obj()
@@ -101,7 +99,7 @@ function createBundle(bundler, opts, transform, file, next) {
         else {
           next(null, file)
         }
-      })
+      }))
   }
 }
 

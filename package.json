@@ -29,6 +29,7 @@
   ],
   "dependencies": {
     "browserify": "^13.0.0",
+    "concat-stream": "^1.5.1",
     "gulp-util": "^3.0.7",
     "into-stream": "^2.0.0",
     "through2": "^2.0.1",
