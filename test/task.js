@@ -45,7 +45,7 @@ test.cb('bundle an empty file', t => {
     .pipe(bro())
     .pipe(assert.length(1))
     .pipe(assert.first(
-      d => t.is(d.contents.length, 610)
+      d => t.is(d.contents.toString().match(/fixtures\/empty.js/).length, 1)
     ))
     .pipe(assert.end(t.end))
 })
@@ -73,7 +73,7 @@ test.cb('accept browserify transforms', t => {
     }))
     .pipe(assert.length(1))
     .pipe(assert.first(
-      d => t.is(d.contents.length, 836)
+      d => t.is(d.contents.toString().match(/_classCallCheck/).length, 1)
     ))
     .pipe(assert.end(t.end))
 })
