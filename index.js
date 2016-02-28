@@ -1,12 +1,13 @@
 'use strict'
 
 const browserify = require('browserify')
+const incremental = require('browserify-incremental')
 const intoStream = require('into-stream')
 const through2 = require('through2')
-const watchify = require('watchify')
 const gutil = require('gulp-util')
-const touch = require('touch')
 const concat = require('concat-stream')
+
+const bundlers = {}
 
 /**
  * Return a vinyl transform stream.
@@ -32,15 +33,14 @@ module.exports = bro
  */
 function transform(opts) {
   return through2.obj(function(file, encoding, next) {
-    const bundler = createBundler(opts, file)
-    const bundle = createBundle(bundler, opts, this, file, next)
+    const bundler = createBundler(opts, file, this)
 
-    if (opts.watch) {
-      bundler.on('update', bundle)
-      bundler.on('log', log)
-    }
-
-    bundle()
+    bundler.bundle()
+      .on('error', createErrorHandler(opts, this))
+      .pipe(concat(data => {
+        file.contents = data
+        next(null, file)
+      }))
   })
 }
 
@@ -49,58 +49,30 @@ function transform(opts) {
  *
  * @param  {object} opts
  * @param  {vinyl} file
+ * @param  {stream.Transform} transform
  * @return {Browserify}
  */
-function createBundler(opts, file) {
-  const entries = file.isNull() ? file.path : intoStream(file.contents)
-  const basedir = 'string' !== typeof entries ? file.base : undefined
+function createBundler(opts, file, transform) {
+  opts.entries = file.isNull() ? file.path : intoStream(file.contents)
+  opts.basedir = 'string' !== typeof opts.entries ? file.base : undefined
 
-  let bundler = browserify({ entries, basedir })
-  if (opts.watch) {
-    bundler = watchify(bundler)
+  let bundler = bundlers[file.path]
+
+  if (bundler) {
+    bundler.removeAllListeners('log')
+    bundler.removeAllListeners('time')
   }
+  else {
+    bundler = browserify(Object.assign(opts, incremental.args))
+    incremental(bundler)
+    bundlers[file.path] = bundler
+  }
+
+  bundler.on('log', log)
+  bundler.on('log', message => transform.emit('log', message))
+  bundler.on('time', time => transform.emit('time', time))
 
   return bundler
-}
-
-/**
- * Return a function that bundles the given file.
- *
- * @param  {Browserify} bundler
- * @param  {object} opts
- * @param  {stream.Transform} transform
- * @param  {vinyl} file
- * @param  {function} next
- * @return {function}
- */
-function createBundle(bundler, opts, transform, file, next) {
-  return function() {
-    bundler.bundle()
-      .on('error', createErrorHandler(opts, transform))
-      .pipe(concat(data => {
-        file.contents = data
-
-        if (opts.callback) {
-          const bundleStream = through2.obj()
-          bundleStream.push(file)
-          bundleStream.push(null)
-
-          // XXX: chokibar does not detect a change if we do not explicitly touch the file
-          //   https://github.com/paulmillr/chokidar/issues/345#issuecomment-189389442
-          //
-          // TODO: move `touch` back to `devDependencies when it's fixed`
-          const outStream = opts.callback(bundleStream)
-          if (outStream) {
-            outStream.on('finish', () => {
-              setTimeout(() => touch.sync(file.path), 100)
-            })
-          }
-        }
-        else {
-          next(null, file)
-        }
-      }))
-  }
 }
 
 /**
