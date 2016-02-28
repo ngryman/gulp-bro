@@ -1,6 +1,6 @@
 # <div align=center>![](https://raw.githubusercontent.com/ngryman/artworks/master/gulp-bro/heading/gulp-bro.png)</div>
 
-> gulp + browserify + watchify, done right.
+> gulp + browserify + incremental build, done right.
 
 [![travis][travis-image]][travis-url] [![codecov][codecov-image]][codecov-url]
 
@@ -16,7 +16,7 @@ Even through *gulp* has [recipes] to make things work, configuring *browserify* 
 It also support [incremental build] out of the box, so you don't have to mess with *watchify* again.
 
 [recipes]: https://github.com/gulpjs/gulp/tree/master/docs/recipes
-[incremental build]: https://github.com/substack/watchify
+[incremental build]: https://github.com/jsdf/browserify-incremental
 
 ## Install
 
@@ -34,20 +34,11 @@ gulp.task('build', () =>
     .then(bro())
     .then(gulp.dest('dist'))
 )
+
+gulp.watch('*.js', ['build'])
 ```
 
-### Watch build
-
-```javascript
-gulp.task('build', () =>
-  gulp.src('app.js')
-    .then(bro({ watch: true }, bundle => bundle
-      .then(gulp.dest('dist'))
-    ))
-)
-```
-
-*Note the callback, it is explained [here](#why-do-i-need-a-callback-for-watch-builds).*
+*Subsequent calls to `build` will be fast thanks to incremental build.*
 
 ### Browserify transforms
 
@@ -55,11 +46,9 @@ gulp.task('build', () =>
 gulp.task('build', () =>
   gulp.src('app.js')
     .then(bro({
-      watch: true,
-      transform: ['babelify']
-    }, bundle => bundle
-      .then(gulp.dest('dist'))
-    ))
+      transform: [babelify.configure({ presets: ['es2015'] })]
+    })
+    .then(gulp.dest('dist')
 )
 ```
 
@@ -68,12 +57,8 @@ gulp.task('build', () =>
 ```javascript
 gulp.task('build', () =>
   gulp.src('*.js')
-    .then(bro({
-      watch: true,
-      transform: ['babelify']
-    }, bundle => bundle
-      .then(gulp.dest('dist'))
-    ))
+    .then(bro())
+    .then(gulp.dest('dist')
 )
 ```
 
@@ -83,17 +68,11 @@ gulp.task('build', () =>
 
 ### `options` <sup><sub>`{object}`</sub></sup>
 
-Except `watch` and `error`, options are directly passed to *browserify*. So you can use *bro* as if you were using *browerify*. See a list of [available options](https://github.com/substack/node-browserify#browserifyfiles--opts).
-
-#### `watch` <sup><sub>`{object}`</sub></sup>
-
-If set to `true`, *bro* will watch for changes and rebuild the bundle. It uses *watchify* under the hood with all incremental build goodness. You should use this instead of `gulp.watch`.
-
-If you need to apply other gulp transforms after each build (i.e live reload, minification), you will need to provide a callback.
+Except `error`, options are directly passed to *browserify*. So you can use *bro* as if you were using *browerify*. Here is a list of all [available options](https://github.com/substack/node-browserify#browserifyfiles--opts).
 
 #### `error` <sup><sub>`{'emit'|function}`</sub></sup>
 
-Another pitfall of using *browerify* manually was that error reporting had to be done manually too or you ended up with a huge callstack and crashed process.
+Another pitfall of using *browerify* manually was that error reporting had to be done manually too or you ended up with a huge callstack and a crashed process.
 By default, *bro* reports nicely formatted errors:
 
 ![](https://raw.githubusercontent.com/ngryman/artworks/master/gulp-bro/medias/error-reporting.png)
@@ -103,17 +82,15 @@ You can customize things in 2 ways:
  - Set `emit` which will cause *bro* to emit the error, so you can catch it with `on('error')`.
  - Set a callback that will handle the error.
 
-### `callback` <sup><sub>`{function(bundle)}`</sub></sup>
-
-It will be executed after the end of the build. `bundle` is a classic *gulp* stream you can pipe to for further processing.
-
 ## FAQ
 
-### Why do I need a callback for watch builds?
+### What is incremental build?
 
-*gulp* tasks are originally meant to execute once. Once a plugin has been initialized, you can't re-use it. Usually when you watch using `gulp.watch` the whole task is executed again.
+If you use vanilla *browserify* with *gulp*, you end up with long compile times if you watch for changes. The reason is that each time a new *browserify* instance is created and has to parse and compile the whole bundle. Even if only one file has changed, the whole bundle is processed.
 
-*watchify* will monitor for changes and emit data when a new bundle is built. And as we can't reuse already initialized plugins, we need a new context each time. The callback has its own closure allowing plugins to initialize again and make things work.
+Usually you use *watchify* to improve this, and only recompile files that have changed. The only problem with *watchify* is that it monitors file changes on its own and needs a lot of boilerplate to integrate with *gulp*, precisely because of this.
+
+*gulp* already provide a file watch mechanism that we can use out of the box. *bro* caches already compiled files and only recompile changes. So you can call repeatedly `bro` with optimal compile times.
 
 ## License
 
