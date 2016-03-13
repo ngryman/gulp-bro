@@ -31,8 +31,8 @@ npm install --save-dev gulp-bro
 ```javascript
 gulp.task('build', () =>
   gulp.src('app.js')
-    .then(bro())
-    .then(gulp.dest('dist'))
+    .pipe(bro())
+    .pipe(gulp.dest('dist'))
 )
 
 gulp.watch('*.js', ['build'])
@@ -45,10 +45,10 @@ gulp.watch('*.js', ['build'])
 ```javascript
 gulp.task('build', () =>
   gulp.src('app.js')
-    .then(bro({
+    .pipe(bro({
       transform: [babelify.configure({ presets: ['es2015'] })]
     })
-    .then(gulp.dest('dist')
+    .pipe(gulp.dest('dist')
 )
 ```
 
@@ -57,8 +57,8 @@ gulp.task('build', () =>
 ```javascript
 gulp.task('build', () =>
   gulp.src('*.js')
-    .then(bro())
-    .then(gulp.dest('dist')
+    .pipe(bro())
+    .pipe(gulp.dest('dist')
 )
 ```
 
