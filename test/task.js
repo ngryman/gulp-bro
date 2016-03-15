@@ -18,7 +18,7 @@ test.cb('bundle a file', t => {
 })
 
 test.cb('take file contents when available', t => {
-  vfs.src('fixtures/a+b.js')
+  vfs.src('fixtures/modules/d/e/f.js')
     .pipe(bro())
     .pipe(assert.length(1))
     .pipe(assert.first(
