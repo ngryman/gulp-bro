@@ -6,6 +6,7 @@ const intoStream = require('into-stream')
 const through2 = require('through2')
 const gutil = require('gulp-util')
 const concat = require('concat-stream')
+const path = require('path')
 
 const bundlers = {}
 
@@ -54,7 +55,7 @@ function transform(opts) {
  */
 function createBundler(opts, file, transform) {
   opts.entries = file.isNull() ? file.path : intoStream(file.contents)
-  opts.basedir = 'string' !== typeof opts.entries ? file.base : undefined
+  opts.basedir = 'string' !== typeof opts.entries ? path.dirname(file.path) : undefined
 
   let bundler = bundlers[file.path]
 
