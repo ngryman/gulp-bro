@@ -17,16 +17,6 @@ test.cb('bundle a file', t => {
     .pipe(assert.end(t.end))
 })
 
-test.cb('take file contents when available', t => {
-  vfs.src('fixtures/modules/d/e/f.js')
-    .pipe(bro())
-    .pipe(assert.length(1))
-    .pipe(assert.first(
-      d => t.is(d.contents.toString().match(/exports = '[ab]'/g).length, 2)
-    ))
-    .pipe(assert.end(t.end))
-})
-
 test.cb('bundle multiple files separately', t => {
   vfs.src(['fixtures/a+b.js', 'fixtures/a+c.js'], { read: false })
     .pipe(bro())
@@ -117,4 +107,14 @@ test.cb('gulp.watch should detect changes', t => {
         touch.sync('fixtures/modules/a.js')
       }))
   }
+})
+
+test.cb('take files content when deeply nested, #5', t => {
+  vfs.src('fixtures/modules/d/e/f.js')
+    .pipe(bro())
+    .pipe(assert.length(1))
+    .pipe(assert.first(
+      d => t.is(d.contents.toString().match(/exports = '[ab]'/g).length, 2)
+    ))
+    .pipe(assert.end(t.end))
 })
