@@ -1,3 +1,4 @@
+/*eslint no-sync: 0*/
 import test from 'ava'
 import bro from '../'
 import assert from 'stream-assert'
@@ -5,10 +6,20 @@ import vfs from 'vinyl-fs'
 import catchStdout from 'catch-stdout'
 import babelify from 'babelify'
 import chokidar from 'chokidar'
-import touch from 'touch'
+import fs from 'fs'
 
 test.cb('bundle a file', t => {
   vfs.src('fixtures/a+b.js', { read: false })
+    .pipe(bro())
+    .pipe(assert.length(1))
+    .pipe(assert.first(
+      d => t.is(d.contents.toString().match(/exports = '[ab]'/g).length, 2)
+    ))
+    .pipe(assert.end(t.end))
+})
+
+test.cb('bundle a stream', t => {
+  vfs.src('fixtures/a+b.js')
     .pipe(bro())
     .pipe(assert.length(1))
     .pipe(assert.first(
@@ -93,23 +104,7 @@ test.cb('call an error handler when provided', t => {
     .pipe(assert.end(t.end))
 })
 
-test.cb('gulp.watch should detect changes', t => {
-  let calls = 0
-
-  bundle()
-  chokidar.watch('fixtures/modules/a.js').on('change', bundle)
-
-  function bundle() {
-    vfs.src('fixtures/watch.js', { read: false })
-      .pipe(bro())
-      .pipe(assert.end(() => {
-        if (2 === ++calls) t.end()
-        touch.sync('fixtures/modules/a.js')
-      }))
-  }
-})
-
-test.cb('take files content when deeply nested, #5', t => {
+test.cb('bundle a stream when deeply nested, #5', t => {
   vfs.src('fixtures/modules/d/e/f.js')
     .pipe(bro())
     .pipe(assert.length(1))
@@ -117,4 +112,32 @@ test.cb('take files content when deeply nested, #5', t => {
       d => t.is(d.contents.toString().match(/exports = '[ab]'/g).length, 2)
     ))
     .pipe(assert.end(t.end))
+})
+
+test.cb('gulp.watch detect changes in main entry, #4', t => {
+  let calls = 0
+
+  fs.writeFileSync('fixtures/watch_entry.js', '// not empty')
+
+  bundle()
+  chokidar.watch('fixtures/watch_entry.js').on('change', bundle)
+
+  function bundle() {
+    vfs.src('fixtures/watch_entry.js')
+      .pipe(bro())
+      .pipe(assert.first(
+        d => t.is(d.contents.toString().match(/alert("yay")/g).length, 2)
+      ))
+      .pipe(assert.end(() => {
+        if (2 === ++calls) {
+          fs.unlinkSync('fixtures/watch_entry.js')
+          return t.end()
+        }
+
+        // mtime resolution can be 1-2sec depending on the os
+        setTimeout(() => {
+          fs.appendFileSync('fixtures/watch_entry.js', 'alert("yay")')
+        }, 2000)
+      }))
+  }
 })
