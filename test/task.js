@@ -1,4 +1,4 @@
-/*eslint no-sync: 0*/
+/*eslint no-sync: 0, no-inline-comments: 0*/
 import test from 'ava'
 import bro from '../'
 import assert from 'stream-assert'
@@ -46,7 +46,7 @@ test.cb('bundle an empty file', t => {
     .pipe(bro())
     .pipe(assert.length(1))
     .pipe(assert.first(
-      d => t.is(d.contents.toString().match(/fixtures\/empty.js/).length, 1)
+      d => t.is(d.contents.toString().length, 498 /* browserify runtime */)
     ))
     .pipe(assert.end(t.end))
 })
@@ -61,7 +61,7 @@ test.cb('use incremental build', t => {
         .pipe(bro())
         .on('time', time => times.push(time))
         .pipe(assert.end(() => {
-          t.ok(times[1] < times[0])
+          t.truthy(times[1] < times[0])
           t.end()
         }))
     }))
@@ -84,7 +84,7 @@ test.cb('log a syntax error', t => {
 
   vfs.src('fixtures/syntax_error.js', { read: false })
     .pipe(bro(() => {
-      t.ok(~restore().indexOf('SyntaxError'))
+      t.truthy(~restore().indexOf('SyntaxError'))
       t.end()
     }))
 })
