@@ -1,6 +1,6 @@
 {
   "name": "gulp-bro",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "gulp + browserify + incremental build, done right.",
   "author": "Nicolas Gryman <ngryman@gmail.com> (http://ngryman.sh/)",
   "license": "MIT",
