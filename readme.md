@@ -105,6 +105,15 @@ gulp.src('app.js', { read: false })
     .pipe(gulp.dest('dist'))
 ```
 
+## Contributors
+
+[//]: contributor-faces
+<a href="https://github.com/ngryman"><img src="https://avatars.githubusercontent.com/u/892048?v=3" title="ngryman" width="80" height="80"></a>
+<a href="https://github.com/shannonmoeller"><img src="https://avatars.githubusercontent.com/u/155164?v=3" title="shannonmoeller" width="80" height="80"></a>
+[//]: contributor-faces
+
+<sup>Generated with [contributors-faces](https://github.com/ngryman/contributor-faces).</sup>
+
 ## License
 
 MIT © [Nicolas Gryman](http://ngryman.sh)
