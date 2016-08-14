@@ -69,7 +69,6 @@ function createBundler(opts, file, transform) {
     bundlers[file.path] = bundler
   }
 
-  bundler.on('log', log)
   bundler.on('log', message => transform.emit('log', message))
   bundler.on('time', time => transform.emit('time', time))
 
