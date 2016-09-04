@@ -34,7 +34,7 @@
     "browserify-incremental": "^3.1.1",
     "concat-stream": "^1.5.1",
     "gulp-util": "^3.0.7",
-    "into-stream": "^2.0.0",
+    "into-stream": "^3.0.0",
     "through2": "^2.0.1"
   },
   "devDependencies": {
