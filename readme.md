@@ -46,7 +46,10 @@ gulp.watch('*.js', ['build'])
 gulp.task('build', () =>
   gulp.src('app.js')
     .pipe(bro({
-      transform: [babelify.configure({ presets: ['es2015'] })]
+      transform: [
+        babelify.configure({ presets: ['es2015'] }),
+        [ 'uglifyify', { global: true } ]
+      ]
     })
     .pipe(gulp.dest('dist')
 )
