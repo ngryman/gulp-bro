@@ -112,6 +112,7 @@ gulp.src('app.js', { read: false })
 
 [//]: contributor-faces
 <a href="https://github.com/ngryman"><img src="https://avatars.githubusercontent.com/u/892048?v=3" title="ngryman" width="80" height="80"></a>
+<a href="https://github.com/DylanPiercey"><img src="https://avatars.githubusercontent.com/u/4985201?v=3" title="DylanPiercey" width="80" height="80"></a>
 <a href="https://github.com/shannonmoeller"><img src="https://avatars.githubusercontent.com/u/155164?v=3" title="shannonmoeller" width="80" height="80"></a>
 [//]: contributor-faces
 
