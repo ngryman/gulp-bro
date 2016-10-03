@@ -55,7 +55,9 @@ function transform(opts) {
  */
 function createBundler(opts, file, transform) {
   opts.entries = file.isNull() ? file.path : intoStream(file.contents)
-  opts.basedir = 'string' !== typeof opts.entries ? path.dirname(file.path) : undefined
+  opts.basedir = 'string' !== typeof opts.entries
+    ? path.dirname(file.path)
+    : undefined
 
   let bundler = bundlers[file.path]
 
