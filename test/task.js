@@ -9,7 +9,7 @@ import chokidar from 'chokidar'
 import fs from 'fs'
 
 test.cb('bundle a file', t => {
-  vfs.src('fixtures/a+b.js', { read: false })
+  vfs.src('test/fixtures/a+b.js', { read: false })
     .pipe(bro())
     .pipe(assert.length(1))
     .pipe(assert.first(
@@ -19,7 +19,7 @@ test.cb('bundle a file', t => {
 })
 
 test.cb('bundle a stream', t => {
-  vfs.src('fixtures/a+b.js')
+  vfs.src('test/fixtures/a+b.js')
     .pipe(bro())
     .pipe(assert.length(1))
     .pipe(assert.first(
@@ -29,7 +29,7 @@ test.cb('bundle a stream', t => {
 })
 
 test.cb('bundle multiple files separately', t => {
-  vfs.src(['fixtures/a+b.js', 'fixtures/a+c.js'], { read: false })
+  vfs.src(['test/fixtures/a+b.js', 'test/fixtures/a+c.js'], { read: false })
     .pipe(bro())
     .pipe(assert.length(2))
     .pipe(assert.first(
@@ -42,7 +42,7 @@ test.cb('bundle multiple files separately', t => {
 })
 
 test.cb('bundle an empty file', t => {
-  vfs.src('fixtures/empty.js', { read: false })
+  vfs.src('test/fixtures/empty.js', { read: false })
     .pipe(bro())
     .pipe(assert.length(1))
     .pipe(assert.first(
@@ -53,11 +53,11 @@ test.cb('bundle an empty file', t => {
 
 test.cb('use incremental build', t => {
   let times = []
-  vfs.src('fixtures/incremental.js', { read: false })
+  vfs.src('test/fixtures/incremental.js', { read: false })
     .pipe(bro())
     .on('time', time => times.push(time))
     .pipe(assert.end(() => {
-      vfs.src('fixtures/incremental.js', { read: false })
+      vfs.src('test/fixtures/incremental.js', { read: false })
         .pipe(bro())
         .on('time', time => times.push(time))
         .pipe(assert.end(() => {
@@ -68,7 +68,7 @@ test.cb('use incremental build', t => {
 })
 
 test.cb('accept browserify transforms', t => {
-  vfs.src('fixtures/es6.js', { read: false })
+  vfs.src('test/fixtures/es6.js', { read: false })
     .pipe(bro({
       transform: babelify.configure({ presets: ['es2015'] })
     }))
@@ -82,7 +82,7 @@ test.cb('accept browserify transforms', t => {
 test.cb('log a syntax error', t => {
   const restore = catchStdout()
 
-  vfs.src('fixtures/syntax_error.js', { read: false })
+  vfs.src('test/fixtures/syntax_error.js', { read: false })
     .pipe(bro(() => {
       t.truthy(~restore().indexOf('SyntaxError'))
       t.end()
@@ -90,7 +90,7 @@ test.cb('log a syntax error', t => {
 })
 
 test.cb('emit a syntax error when asked to', t => {
-  vfs.src('fixtures/syntax_error.js', { read: false })
+  vfs.src('test/fixtures/syntax_error.js', { read: false })
     .pipe(bro({ error: 'emit' }))
     .on('error', err => {
       t.is(err.name, 'SyntaxError')
@@ -99,13 +99,13 @@ test.cb('emit a syntax error when asked to', t => {
 })
 
 test.cb('call an error handler when provided', t => {
-  vfs.src('fixtures/syntax_error.js', { read: false })
+  vfs.src('test/fixtures/syntax_error.js', { read: false })
     .pipe(bro({ error: err => t.is(err.name, 'SyntaxError') }))
     .pipe(assert.end(t.end))
 })
 
 test.cb('bundle a stream when deeply nested, #5', t => {
-  vfs.src('fixtures/modules/d/e/f.js')
+  vfs.src('test/fixtures/modules/d/e/f.js')
     .pipe(bro())
     .pipe(assert.length(1))
     .pipe(assert.first(
@@ -117,26 +117,26 @@ test.cb('bundle a stream when deeply nested, #5', t => {
 test.cb('gulp.watch detect changes in main entry, #4', t => {
   let calls = 0
 
-  fs.writeFileSync('fixtures/watch_entry.js', '// not empty')
+  fs.writeFileSync('test/fixtures/watch_entry.js', '// not empty')
 
   bundle()
-  chokidar.watch('fixtures/watch_entry.js').on('change', bundle)
+  chokidar.watch('test/fixtures/watch_entry.js').on('change', bundle)
 
   function bundle() {
-    vfs.src('fixtures/watch_entry.js')
+    vfs.src('test/fixtures/watch_entry.js')
       .pipe(bro())
       .pipe(assert.first(
         d => t.is(d.contents.toString().match(/alert("yay")/g).length, 2)
       ))
       .pipe(assert.end(() => {
         if (2 === ++calls) {
-          fs.unlinkSync('fixtures/watch_entry.js')
+          fs.unlinkSync('test/fixtures/watch_entry.js')
           return t.end()
         }
 
         // mtime resolution can be 1-2sec depending on the os
         setTimeout(() => {
-          fs.appendFileSync('fixtures/watch_entry.js', 'alert("yay")')
+          fs.appendFileSync('test/fixtures/watch_entry.js', 'alert("yay")')
         }, 2000)
       }))
   }
