@@ -141,3 +141,16 @@ test.cb('gulp.watch detect changes in main entry, #4', t => {
       }))
   }
 })
+
+test.cb('accept an external option, #25', t => {
+  vfs.src('test/fixtures/external.js', { read: false })
+    .pipe(bro({ external: './modules/b' }))
+    .pipe(assert.length(1))
+    .pipe(assert.first(
+      d => console.log(d.contents.toString())
+    ))
+    .pipe(assert.first(
+      d => t.is(d.contents.toString().match(/exports = '[ab]'/g).length, 1)
+    ))
+    .pipe(assert.end(t.end))
+})

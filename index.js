@@ -67,6 +67,10 @@ function createBundler(opts, file, transform) {
   }
   else {
     bundler = browserify(Object.assign(opts, incremental.args))
+    // only available via method call (#25)
+    if (opts.external) {
+      bundler.external(opts.external)
+    }
     incremental(bundler)
     bundlers[file.path] = bundler
   }
