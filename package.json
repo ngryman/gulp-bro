@@ -33,7 +33,7 @@
     "extends": "ngryman"
   },
   "dependencies": {
-    "browserify": "^13.1.1",
+    "browserify": "^14.0.0",
     "browserify-incremental": "^3.1.1",
     "concat-stream": "^1.5.2",
     "gulp-util": "^3.0.7",
