@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Gulp Bro" src="https://raw.githubusercontent.com/ngryman/artworks/master/gulp-bro/heading/gulp-bro@2x.png" width="228">
+  <img alt="Gulp Bro" src="https://raw.githubusercontent.com/ngryman/artworks/master/gulp-bro/heading/gulp-bro-2x.png" width="228">
 </p>
 
 <p align="center">
