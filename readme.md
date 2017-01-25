@@ -1,16 +1,23 @@
-# <div align=center>![](https://raw.githubusercontent.com/ngryman/artworks/master/gulp-bro/heading/gulp-bro.png)</div>
+<p align="center">
+  <img alt="Gulp Bro" src="https://raw.githubusercontent.com/ngryman/artworks/master/gulp-bro/heading/gulp-bro@2x.png" width="228">
+</p>
 
-> gulp + browserify + incremental build, done right.
+<p align="center">
+  gulp + browserify + incremental build, done right.
+</p>
 
-[![travis][travis-image]][travis-url] [![codecov][codecov-image]][codecov-url]
+<p align="center">
+  <a href="//travis-ci.org/ngryman/gulp-bro">
+    <img alt="Build Status" src="https://img.shields.io/travis/ngryman/gulp-bro.svg">
+  </a>
+  <a href="//codecov.io/github/ngryman/gulp-bro">
+    <img alt="Coverage" src="https://img.shields.io/codecov/c/github/ngryman/gulp-bro.svg">
+  </a>
+</p>
 
-[travis-image]: https://img.shields.io/travis/ngryman/gulp-bro.svg?style=flat
-[travis-url]: https://travis-ci.org/ngryman/gulp-bro
-[codecov-image]: https://img.shields.io/codecov/c/github/ngryman/gulp-bro.svg
-[codecov-url]: https://codecov.io/github/ngryman/gulp-bro
+---
 
-
-Even through *gulp* has [recipes] to make things work, configuring *browserify* needs too much boilerplate and understanding about how things work.
+Even through **gulp** has [recipes] to make things work, configuring **browserify** needs too much boilerplate and understanding about how things work.
 **gulp-bro** looks like any other *gulp* plugin, it does the exact same thing you can do manually, but hides the *ugly* stuff for you.
 
 It also support [incremental build] out of the box, so you don't have to mess with *watchify* again.
