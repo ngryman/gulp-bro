@@ -1,8 +1,10 @@
 sudo: false
 language: node_js
 cache:
-  directories:
-    - node_modules
+  yarn: true
+install:
+  - export PATH=$HOME/.yarn/bin:$PATH
+  - yarn --ignore-engines
 branches:
   only:
     - master

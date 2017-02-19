@@ -1378,7 +1378,7 @@ constants-browserify@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
 
-contributor-faces@^1.0.0:
+contributor-faces:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/contributor-faces/-/contributor-faces-1.0.0.tgz#a3ad284ae637277d88293022e17b6dcc79f0ebfc"
   dependencies:
