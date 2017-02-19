@@ -2,7 +2,6 @@
 
 const browserify = require('browserify')
 const incremental = require('browserify-incremental')
-const intoStream = require('into-stream')
 const through2 = require('through2')
 const gutil = require('gulp-util')
 const concat = require('concat-stream')
@@ -54,10 +53,10 @@ function transform(opts) {
  * @return {Browserify}
  */
 function createBundler(opts, file, transform) {
-  opts.entries = file.isNull() ? file.path : intoStream(file.contents)
-  opts.basedir = 'string' !== typeof opts.entries
-    ? path.dirname(file.path)
-    : undefined
+  // omit file contents to make browserify-incremental work propery
+  // on main entry (#4)
+  opts.entries = file.path
+  opts.basedir = path.dirname(file.path)
 
   let bundler = bundlers[file.path]
 
@@ -113,7 +112,7 @@ function createErrorHandler(opts, transform) {
 /* -------------------------------------------------------------------------- */
 
 /**
- * Parse options, arguments juggling
+ * Parse options, arguments juggling.
  *
  * @param  {object} opts
  * @param  {function} callback
