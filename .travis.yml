@@ -3,6 +3,7 @@ language: node_js
 cache:
   yarn: true
 install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
   - yarn --ignore-engines
 branches:
