@@ -102,19 +102,6 @@ Usually you use *watchify* to improve this, and only recompile files that have c
 
 *gulp* already provide a file watch mechanism that we can use out of the box. *bro* caches already compiled files and only recompile changes. So you can call repeatedly `bro` with optimal compile times.
 
-## Known issues
-
-### The main entry does not update
-
-This is a pending issue ([#4](https://github.com/ngryman/gulp-bro/issues/4)). If you frequently make updates the main entry, then you should consider using
-`{ read: false }` which seems to make the problem disappear:
-
-```js
-gulp.src('app.js', { read: false })
-    .pipe(bro())
-    .pipe(gulp.dest('dist'))
-```
-
 ## Contributors
 
 [//]: contributor-faces
