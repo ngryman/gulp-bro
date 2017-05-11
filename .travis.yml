@@ -9,6 +9,7 @@ install:
 branches:
   only:
     - master
+    - /^greenkeeper/.*$/
 notifications:
   email: false
 node_js:
