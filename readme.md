@@ -17,6 +17,8 @@
 
 ---
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ngryman/gulp-bro.svg)](https://greenkeeper.io/)
+
 Even through **gulp** has [recipes] to make things work, configuring **browserify** needs too much boilerplate and understanding about how things work.
 **gulp-bro** looks like any other *gulp* plugin, it does the exact same thing you can do manually, but hides the *ugly* stuff for you.
 
