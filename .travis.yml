@@ -13,4 +13,4 @@ notifications:
   email: false
 node_js:
   - 'stable'
-  - 'lts'
+  - 'lts/*'
