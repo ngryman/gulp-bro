@@ -86,10 +86,7 @@ test.cb('accept browserify transforms', t => {
     }))
     .pipe(assert.length(1))
     .pipe(assert.first(
-      d => t.deepEqual(
-        d.contents.toString().match(/_classCallCheck/),
-        ['_classCallCheck']
-      )
+      d => t.is(d.contents.toString().match(/_classCallCheck/).length, 1)
     ))
     .pipe(assert.end(t.end))
 })
@@ -144,10 +141,7 @@ test.cb('gulp.watch detect changes in main entry, #4', t => {
       .pipe(assert.first(
         d => {
           if (1 === calls) {
-            t.deepEqual(
-              d.contents.toString().match(/alert\("yay"\)/),
-              ['alert("yay")']
-            )
+            t.is(d.contents.toString().match(/alert\("yay"\)/).length, 1)
           }
         }
       ))

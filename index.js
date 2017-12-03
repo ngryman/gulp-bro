@@ -89,16 +89,16 @@ function createBundler(opts, file, transform) {
  */
 function createErrorHandler(opts, transform) {
   return err => {
-    if (!opts.error || 'log' === opts.error) {
-      const message = gutil.colors.red(err.name) + '\n' + err.toString()
-        .replace(/(ParseError.*)/, gutil.colors.red('$1'))
-      log(message)
-    }
-    else if ('emit' === opts.error) {
+    if ('emit' === opts.error) {
       transform.emit('error', err)
     }
     else if ('function' === typeof opts.error) {
       opts.error(err)
+    }
+    else {
+      const message = gutil.colors.red(err.name) + '\n' + err.toString()
+        .replace(/(ParseError.*)/, gutil.colors.red('$1'))
+      log(message)
     }
 
     transform.emit('end')

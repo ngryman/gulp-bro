@@ -17,8 +17,8 @@
     "contributors": "contributor-faces --exclude '*-bot'"
   },
   "precommit": [
-    "check-coverage",
     "test",
+    "check-coverage",
     "contributors"
   ],
   "keywords": [
@@ -41,16 +41,16 @@
     "through2": "^2.0.1"
   },
   "devDependencies": {
-    "ava": "^0.19.1",
+    "ava": "^0.22.0",
     "babel-preset-es2015": "^6.18.0",
     "babelify": "^7.2.0",
     "catch-stdout": "0.0.1",
     "chokidar": "^1.6.1",
     "codecov.io": "^0.1.6",
     "contributor-faces": "^1.0.0",
-    "eslint": "^3.10.2",
+    "eslint": "^4.9.0",
     "eslint-config-ngryman": "^1.7.0",
-    "nyc": "^10.0.0",
+    "nyc": "^11.2.1",
     "pre-commit": "^1.1.2",
     "stream-assert": "^2.0.3",
     "vinyl-fs": "^2.4.4"
