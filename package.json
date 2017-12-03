@@ -17,8 +17,8 @@
     "contributors": "contributor-faces --exclude '*-bot'"
   },
   "precommit": [
-    "check-coverage",
     "test",
+    "check-coverage",
     "contributors"
   ],
   "keywords": [
