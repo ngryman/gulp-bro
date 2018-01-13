@@ -61,7 +61,7 @@ gulp.task('build', () =>
         babelify.configure({ presets: ['es2015'] }),
         [ 'uglifyify', { global: true } ]
       ]
-    })
+    }))
     .pipe(gulp.dest('dist')
 )
 ```
@@ -72,7 +72,7 @@ gulp.task('build', () =>
 gulp.task('build', () =>
   gulp.src('*.js')
     .pipe(bro())
-    .pipe(gulp.dest('dist')
+    .pipe(gulp.dest('dist'))
 )
 ```
 
