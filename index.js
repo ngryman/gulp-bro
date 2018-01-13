@@ -3,7 +3,8 @@
 const browserify = require('browserify')
 const incremental = require('browserify-incremental')
 const through2 = require('through2')
-const gutil = require('gulp-util')
+const colors = require('ansi-colors')
+const fancyLog = require('fancy-log')
 const concat = require('concat-stream')
 const path = require('path')
 
@@ -96,8 +97,8 @@ function createErrorHandler(opts, transform) {
       opts.error(err)
     }
     else {
-      const message = gutil.colors.red(err.name) + '\n' + err.toString()
-        .replace(/(ParseError.*)/, gutil.colors.red('$1'))
+      const message = colors.red(err.name) + '\n' + err.toString()
+        .replace(/(ParseError.*)/, colors.red('$1'))
       log(message)
     }
 
@@ -136,5 +137,5 @@ function parseArguments(opts, callback) {
  * @param {string} message
  */
 function log(message) {
-  gutil.log(`[${gutil.colors.cyan('bro')}] ${message}`)
+  fancyLog(`[${colors.cyan('bro')}] ${message}`)
 }
