@@ -34,7 +34,7 @@
     "extends": "ngryman"
   },
   "dependencies": {
-    "ansi-colors": "^1.0.1",
+    "ansi-colors": "^3.2.2",
     "browserify": "^15.1.0",
     "browserify-incremental": "^3.1.1",
     "concat-stream": "^1.5.2",
