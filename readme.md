@@ -109,9 +109,12 @@ Usually you use *watchify* to improve this, and only recompile files that have c
 ## Contributors
 
 [//]: contributor-faces
-<a href="https://github.com/ngryman"><img src="https://avatars.githubusercontent.com/u/892048?v=3" title="ngryman" width="80" height="80"></a>
-<a href="https://github.com/DylanPiercey"><img src="https://avatars.githubusercontent.com/u/4985201?v=3" title="DylanPiercey" width="80" height="80"></a>
-<a href="https://github.com/shannonmoeller"><img src="https://avatars.githubusercontent.com/u/155164?v=3" title="shannonmoeller" width="80" height="80"></a>
+<a href="https://github.com/ngryman"><img src="https://avatars2.githubusercontent.com/u/892048?v=4" title="ngryman" width="80" height="80"></a>
+<a href="https://github.com/apps/greenkeeper"><img src="https://avatars3.githubusercontent.com/in/505?v=4" title="greenkeeper[bot]" width="80" height="80"></a>
+<a href="https://github.com/DylanPiercey"><img src="https://avatars2.githubusercontent.com/u/4985201?v=4" title="DylanPiercey" width="80" height="80"></a>
+<a href="https://github.com/shannonmoeller"><img src="https://avatars3.githubusercontent.com/u/155164?v=4" title="shannonmoeller" width="80" height="80"></a>
+<a href="https://github.com/fralonra"><img src="https://avatars2.githubusercontent.com/u/20400873?v=4" title="fralonra" width="80" height="80"></a>
+
 [//]: contributor-faces
 
 <sup>Generated with [contributors-faces](https://github.com/ngryman/contributor-faces).</sup>
