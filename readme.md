@@ -16,7 +16,12 @@
   <a href="//codecov.io/github/ngryman/gulp-bro">
     <img alt="Dependencies" src="https://badges.greenkeeper.io/ngryman/gulp-bro.svg">
   </a>
+  <img alt="Maintained" src="https://img.shields.io/badge/maintained-no-red">
 </p>
+
+---
+
+**:wave: Hey there, this repository is not maintained anymore. I unfortunately don't have enough bandwidth to maintain it. If you are interested in becoming a contributor and help keeping the boat afloat, please let me know by opening an issue.**
 
 ---
 
